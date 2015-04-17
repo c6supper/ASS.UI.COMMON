@@ -1,4 +1,4 @@
-package com.ass.ui.framework;
+package com.ass.ui.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -11,7 +11,8 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 public class FrameworkActivity extends SlidingFragmentActivity {
 
 	private int mTitleRes;
-	protected ListFragment mFragList;
+	protected LeftFrameFragment mLeftFrame;
+	protected RightFrameFragment mRightFrame;
 	
 	public FrameworkActivity() {
 	}
@@ -38,11 +39,11 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 		setBehindContentView(R.layout.left_frame);
 		if (savedInstanceState == null) {
 			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-			mFragList = new ListFragment();
-			t.replace(R.id.left_frame, mFragList);
+			mLeftFrame = new LeftFrameFragment();
+			t.replace(R.id.left_frame, mLeftFrame);
 			t.commit();
 		} else {
-			mFragList = (ListFragment)this.getSupportFragmentManager().findFragmentById(R.id.left_frame);
+			mLeftFrame = (LeftFrameFragment) this.getSupportFragmentManager().findFragmentById(R.id.left_frame);
 		}
 
 		setContentView(R.layout.center_frame);
@@ -55,7 +56,7 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
 		getSupportFragmentManager()
 		.beginTransaction()
-		.replace(R.id.right_frame, new ListFragment())
+		.replace(R.id.right_frame, mRightFrame = new RightFrameFragment())
 		.commit();
 	}
 }

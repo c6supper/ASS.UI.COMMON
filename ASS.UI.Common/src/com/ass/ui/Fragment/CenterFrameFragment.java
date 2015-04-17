@@ -1,8 +1,10 @@
-package com.ass.ui.framework;  
+package com.ass.ui.Fragment;  
   
 import java.util.ArrayList;  
 import java.util.List;  
 
+import com.ass.ui.Adaptor.ContentFragmentPagerAdapter;
+import com.ass.ui.common.ContentFragment;
 import com.ass.ui.common.R;
   
 import android.os.Bundle;  
@@ -17,7 +19,7 @@ public class CenterFrameFragment extends Fragment {
       
     private ViewPager mViewPager;  
     private static final String[] titles = {"One","Two","Three","Four","Five"};  
-    private List<ContentBean> list = new ArrayList<ContentBean>();  
+    private List<Fragment> mFragList;  
     private ContentFragmentPagerAdapter mAdapter;  
       
     public CenterFrameFragment(){}  
@@ -26,26 +28,18 @@ public class CenterFrameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  
             Bundle savedInstanceState) {  
    
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);  
+        View rootView = inflater.inflate(R.layout.center_frame, container, false);  
           
-        initData();  
+        for(int i = 0;i < titles.length; i++){  
+        	Fragment frag = new ContentFragment();
+            mFragList.add(frag);  
+        }  
+        
         findView(rootView);  
           
         return rootView;  
     }  
-  
-    private void initData() {  
-          
-        for(int i=0;i<titles.length;i++){  
-              
-            ContentBean cb = new ContentBean();  
-            cb.setTitle(titles[i]);  
-            cb.setContent(titles[i]+"_"+(i+1));  
-              
-            list.add(cb);  
-        }  
-    }  
-  
+
     private void findView(View rootView) {  
           
         mViewPager = (ViewPager) rootView.findViewById(R.id.mViewPager);  
@@ -53,7 +47,7 @@ public class CenterFrameFragment extends Fragment {
         PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView.findViewById(R.id.mPagerTabStrip);  
         mPagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.select_text_color));   
           
-        mAdapter = new ContentFragmentPagerAdapter(getActivity().getSupportFragmentManager(),list);  
+        mAdapter = new ContentFragmentPagerAdapter(getActivity().getSupportFragmentManager(),mFragList);  
         mViewPager.setAdapter(mAdapter);  
     }  
       
