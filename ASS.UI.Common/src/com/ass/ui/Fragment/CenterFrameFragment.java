@@ -1,10 +1,9 @@
 package com.ass.ui.Fragment;  
   
-import java.util.ArrayList;  
 import java.util.List;  
 
 import com.ass.ui.Adaptor.ContentFragmentPagerAdapter;
-import com.ass.ui.common.ContentFragment;
+import com.ass.ui.Fragment.ContentFragment;
 import com.ass.ui.common.R;
   
 import android.os.Bundle;  
@@ -19,7 +18,7 @@ public class CenterFrameFragment extends Fragment {
       
     private ViewPager mViewPager;  
     private static final String[] titles = {"One","Two","Three","Four","Five"};  
-    private List<Fragment> mFragList;  
+    private List<ContentFragment> mFragList;  
     private ContentFragmentPagerAdapter mAdapter;  
       
     public CenterFrameFragment(){}  
@@ -31,7 +30,7 @@ public class CenterFrameFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.center_frame, container, false);  
           
         for(int i = 0;i < titles.length; i++){  
-        	Fragment frag = new ContentFragment();
+        	ContentFragment frag = new ContentFragment(titles[i]);
             mFragList.add(frag);  
         }  
         
@@ -42,10 +41,10 @@ public class CenterFrameFragment extends Fragment {
 
     private void findView(View rootView) {  
           
-        mViewPager = (ViewPager) rootView.findViewById(R.id.mViewPager);  
+        mViewPager = (ViewPager) rootView.findViewById(R.id.view_pager);  
           
-        PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView.findViewById(R.id.mPagerTabStrip);  
-        mPagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.select_text_color));   
+        PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView.findViewById(R.id.pager_tab_strip);  
+        //mPagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.select_text_color));   
           
         mAdapter = new ContentFragmentPagerAdapter(getActivity().getSupportFragmentManager(),mFragList);  
         mViewPager.setAdapter(mAdapter);  

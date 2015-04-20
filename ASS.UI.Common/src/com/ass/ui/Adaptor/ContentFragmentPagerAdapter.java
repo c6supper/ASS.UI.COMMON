@@ -11,21 +11,19 @@ import android.support.v4.app.ListFragment;
 
 public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
 
-	private ListFragment mFragList;
+	private List<ContentFragment> mFragList;
 	public ContentFragmentPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
 	
-	public ContentFragmentPagerAdapter(FragmentManager fm,ListFragment list) {
+	public ContentFragmentPagerAdapter(FragmentManager fm,List<ContentFragment> list) {
 		super(fm);
 		this.mFragList = list;
 	}
 
 	@Override
 	public Fragment getItem(int arg0) {
-		
-		return ContentFragment.newInstance(mFragList.get(arg0));
-		
+		return mFragList.get(arg0);
 	}
 
 	@Override
