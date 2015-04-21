@@ -10,9 +10,11 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class FrameworkActivity extends SlidingFragmentActivity {
 
-	private int mTitleRes;
+	private int mTitleRes = -1;
+	private SlidingMenu mSlidingMenu;
 	protected LeftFrameFragment mLeftFrame;
 	protected RightFrameFragment mRightFrame;
+	protected CenterFrameFragment mCenterFrame;
 	
 	public FrameworkActivity() {
 	}
@@ -24,40 +26,37 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setTitle(mTitleRes);
+		if(mTitleRes != -1)
+			setTitle(mTitleRes);
+		
+		setContentView(R.layout.center_frame);
+		setBehindContentView(R.layout.left_frame);
 		
 		// customize the SlidingMenu
-		SlidingMenu sm = getSlidingMenu();
-		sm.setShadowWidthRes(R.dimen.shadow_width);
-		sm.setShadowDrawable(R.drawable.shadow);
-		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-		sm.setFadeDegree(0.35f);
-		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-		sm.setMode(SlidingMenu.LEFT_RIGHT);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-				
-		setBehindContentView(R.layout.left_frame);
+		mSlidingMenu = getSlidingMenu();
+		mSlidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
+		mSlidingMenu.setSecondaryMenu(R.layout.right_frame);
+		mSlidingMenu.setSecondaryShadowDrawable(R.drawable.shadowright);
+		mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
+		mSlidingMenu.setShadowDrawable(R.drawable.shadow);
+		mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		mSlidingMenu.setFadeDegree(0.35f);
+		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+
 		if (savedInstanceState == null) {
-			FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-			mLeftFrame = new LeftFrameFragment();
-			t.replace(R.id.left_frame, mLeftFrame);
-			t.commit();
+			getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.center_frame, mCenterFrame = new CenterFrameFragment())
+			.replace(R.id.left_frame, mLeftFrame = new LeftFrameFragment())
+			.replace(R.id.right_frame, mRightFrame = new RightFrameFragment())
+			.commit();
 		} else {
+			mCenterFrame = (CenterFrameFragment) this.getSupportFragmentManager().findFragmentById(R.id.center_frame);
 			mLeftFrame = (LeftFrameFragment) this.getSupportFragmentManager().findFragmentById(R.id.left_frame);
+			mRightFrame = (RightFrameFragment) this.getSupportFragmentManager().findFragmentById(R.id.right_frame);
 		}
 
-		setContentView(R.layout.center_frame);
-		getSupportFragmentManager()
-		.beginTransaction()
-		.replace(R.id.center_frame, new CenterFrameFragment())
-		.commit();
-		
-		getSlidingMenu().setSecondaryMenu(R.layout.right_frame);
-		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
-		getSupportFragmentManager()
-		.beginTransaction()
-		.replace(R.id.right_frame, mRightFrame = new RightFrameFragment())
-		.commit();
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 }
 

@@ -1,5 +1,6 @@
 package com.ass.ui.Fragment;  
   
+import java.util.ArrayList;
 import java.util.List;  
 
 import com.ass.ui.Adaptor.ContentFragmentPagerAdapter;
@@ -18,10 +19,17 @@ public class CenterFrameFragment extends Fragment {
       
     private ViewPager mViewPager;  
     private static final String[] titles = {"One","Two","Three","Four","Five"};  
-    private List<ContentFragment> mFragList;  
+    private List<ContentFragment> mFragList = new ArrayList<ContentFragment>();  
     private ContentFragmentPagerAdapter mAdapter;  
       
     public CenterFrameFragment(){}  
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+    }
       
     @Override  
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  
@@ -43,7 +51,7 @@ public class CenterFrameFragment extends Fragment {
           
         mViewPager = (ViewPager) rootView.findViewById(R.id.view_pager);  
           
-        PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView.findViewById(R.id.pager_tab_strip);  
+        //PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView.findViewById(R.id.pager_tab_strip);  
         //mPagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.select_text_color));   
           
         mAdapter = new ContentFragmentPagerAdapter(getActivity().getSupportFragmentManager(),mFragList);  
@@ -59,4 +67,11 @@ public class CenterFrameFragment extends Fragment {
           
         super.onStart();  
     }  
+    
+    @Override
+    public void onPause()
+    {
+        // TODO Auto-generated method stub
+        super.onPause();
+    }
 }   
