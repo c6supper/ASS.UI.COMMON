@@ -1,9 +1,12 @@
-package com.ass.ui.Fragment;
+package com.ass.ui.Activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 
+import com.ass.ui.Fragment.CenterFrameFragment;
+import com.ass.ui.Fragment.LeftFrameFragment;
+import com.ass.ui.Fragment.RightFrameFragment;
 import com.ass.ui.common.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -56,7 +59,7 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 			mRightFrame = (RightFrameFragment) this.getSupportFragmentManager().findFragmentById(R.id.right_frame);
 		}
 
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 }
 
