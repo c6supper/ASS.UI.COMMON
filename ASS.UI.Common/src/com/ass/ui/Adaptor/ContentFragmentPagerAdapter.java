@@ -7,7 +7,6 @@ import com.ass.ui.Fragment.ContentFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.ListFragment;
 
 public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
 

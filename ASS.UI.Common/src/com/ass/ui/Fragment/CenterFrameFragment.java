@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.ass.ui.Adaptor.ContentFragmentPagerAdapter;
 import com.ass.ui.Fragment.ContentFragment;
+import com.ass.ui.View.SlidingTabLayout;
 import com.ass.ui.common.R;
   
 import android.os.Bundle;  
 import android.support.v4.app.Fragment;  
-import android.support.v4.view.PagerTabStrip;  
 import android.support.v4.view.ViewPager;  
 import android.view.LayoutInflater;  
 import android.view.View;  
@@ -21,6 +21,7 @@ public class CenterFrameFragment extends Fragment {
     private static final String[] titles = {"One","Two","Three","Four","Five"};  
     private List<ContentFragment> mFragList = new ArrayList<ContentFragment>();  
     private ContentFragmentPagerAdapter mAdapter;  
+    private SlidingTabLayout mSlidingTab;
       
     public CenterFrameFragment(){}  
     
@@ -50,12 +51,11 @@ public class CenterFrameFragment extends Fragment {
     private void findView(View rootView) {  
           
         mViewPager = (ViewPager) rootView.findViewById(R.id.view_pager);  
-          
-        //PagerTabStrip mPagerTabStrip = (PagerTabStrip) rootView.findViewById(R.id.pager_tab_strip);  
-        //mPagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.select_text_color));   
-          
         mAdapter = new ContentFragmentPagerAdapter(getActivity().getSupportFragmentManager(),mFragList);  
-        mViewPager.setAdapter(mAdapter);  
+        mViewPager.setAdapter(mAdapter);
+        mSlidingTab = (SlidingTabLayout)rootView.findViewById(R.id.sliding_tab); 
+        mSlidingTab.setDistributeEvenly(true);
+        mSlidingTab.setViewPager(mViewPager);
     }  
       
     @Override  

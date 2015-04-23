@@ -1,8 +1,6 @@
 package com.ass.ui.Activity;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 
 import com.ass.ui.Fragment.CenterFrameFragment;
 import com.ass.ui.Fragment.LeftFrameFragment;
@@ -44,7 +42,9 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 		mSlidingMenu.setShadowDrawable(R.drawable.shadow);
 		mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		mSlidingMenu.setFadeDegree(0.35f);
-		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
@@ -58,8 +58,6 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 			mLeftFrame = (LeftFrameFragment) this.getSupportFragmentManager().findFragmentById(R.id.left_frame);
 			mRightFrame = (RightFrameFragment) this.getSupportFragmentManager().findFragmentById(R.id.right_frame);
 		}
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 }
 
