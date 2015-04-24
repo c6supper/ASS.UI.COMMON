@@ -30,7 +30,9 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-    	getSupportMenuInflater().inflate(R.menu.actionbar_menu, menu);
+    	menu.add(R.string.user_center)
+    	.setIcon(R.drawable.user_center)  
+    	.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS); 
         return true;
     }
 	
@@ -62,10 +64,10 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 	{
 		if(item.getItemId() ==  android.R.id.home)
 		{  
-            toggle(); //动态判断自动关闭或开启SlidingMenu    
+            toggle();  
             return true;
 		}
-        else if(item.getItemId() == R.id.right_menu_toggle)
+        else if(item.getTitle() == getString(R.string.user_center))
         {
         	if(mSlidingMenu.isSecondaryMenuShowing()){
         		mSlidingMenu.showContent();
