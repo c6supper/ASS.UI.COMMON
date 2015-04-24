@@ -2,7 +2,6 @@ package com.ass.ui.Activity;
 
 import android.os.Bundle;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.ass.ui.Fragment.CenterFrameFragment;
@@ -48,6 +47,7 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 		mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
 		mSlidingMenu.setFadeDegree(0.35f);
 		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+		mSlidingMenu.setBackgroundColor(getResources().getColor(R.color.violet));
 	}
 	
 	private void initActionBar()

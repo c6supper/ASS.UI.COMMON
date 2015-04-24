@@ -1,5 +1,6 @@
 package com.ass.ui.Fragment;  
   
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;  
 
@@ -8,6 +9,7 @@ import com.ass.ui.Fragment.ContentFragment;
 import com.ass.ui.View.SlidingTabLayout;
 import com.ass.ui.common.R;
   
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;  
 import android.support.v4.app.Fragment;  
 import android.support.v4.view.ViewPager;  
@@ -55,6 +57,20 @@ public class CenterFrameFragment extends Fragment {
         mViewPager.setAdapter(mAdapter);
         mSlidingTab = (SlidingTabLayout)rootView.findViewById(R.id.sliding_tab); 
         mSlidingTab.setDistributeEvenly(true);
+        mSlidingTab.setSelectedIndicatorColors(getResources().getColor(R.color.red));
+        Drawable bkDraw = null;
+        try{
+        	String filePath = "image/" + getClass().getName() + "/background.jpg";
+        	bkDraw = Drawable.createFromStream(getActivity().getAssets().open(filePath), null);
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        if(bkDraw != null)
+        	mSlidingTab.setBackground(bkDraw);
+        else
+        	mSlidingTab.setBackgroundColor(getResources().getColor(R.color.palegreen));
+        mSlidingTab.getBackground().setAlpha(200);
         mSlidingTab.setViewPager(mViewPager);
     }  
       
