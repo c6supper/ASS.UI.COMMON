@@ -1,8 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">ASS.UI.Common</string>
     <string name="pull_to_refresh">Pull to Refresh</string>
     <string name="loading">Loading</string>
     <string name="release_to_load">Release to Load</string>
+    <string name="user_center">User Center</string>
 
 </resources>

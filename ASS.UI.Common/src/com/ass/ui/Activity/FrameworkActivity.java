@@ -2,6 +2,9 @@ package com.ass.ui.Activity;
 
 import android.os.Bundle;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.ass.ui.Fragment.CenterFrameFragment;
 import com.ass.ui.Fragment.LeftFrameFragment;
 import com.ass.ui.Fragment.RightFrameFragment;
@@ -13,6 +16,7 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 
 	private int mTitleRes = -1;
 	private SlidingMenu mSlidingMenu;
+	private android.app.ActionBar	mActionBar;
 	protected LeftFrameFragment mLeftFrame;
 	protected RightFrameFragment mRightFrame;
 	protected CenterFrameFragment mCenterFrame;
@@ -21,6 +25,59 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 	}
 	public FrameworkActivity(int titleRes) {
 		mTitleRes = titleRes;
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+    	getSupportMenuInflater().inflate(R.menu.actionbar_menu, menu);
+        return true;
+    }
+	
+	private void initSlidingMenu()
+	{
+		// customize the SlidingMenu
+		mSlidingMenu = getSlidingMenu();
+		mSlidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
+		mSlidingMenu.setSecondaryMenu(R.layout.right_frame);
+		mSlidingMenu.setSecondaryShadowDrawable(R.drawable.shadowright);
+		mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
+		mSlidingMenu.setShadowDrawable(R.drawable.shadow);
+		mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		mSlidingMenu.setFadeDegree(0.35f);
+		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+	}
+	
+	private void initActionBar()
+	{
+		mActionBar = getActionBar();
+		mActionBar.setDisplayHomeAsUpEnabled(true);
+		mActionBar.setDisplayShowHomeEnabled(true);
+		mActionBar.setDisplayShowCustomEnabled(true);
+		mActionBar.setDisplayShowTitleEnabled(true);
+	}
+	
+	@Override  
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
+		if(item.getItemId() ==  android.R.id.home)
+		{  
+            toggle(); //动态判断自动关闭或开启SlidingMenu    
+            return true;
+		}
+        else if(item.getItemId() == R.id.right_menu_toggle)
+        {
+        	if(mSlidingMenu.isSecondaryMenuShowing()){
+        		mSlidingMenu.showContent();
+        	}else{
+        		mSlidingMenu.showSecondaryMenu();
+        	}
+            return true;
+        }
+        else
+        {
+        	return super.onOptionsItemSelected(item);  
+        }
 	}
 
 	@Override
@@ -33,18 +90,9 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 		setContentView(R.layout.center_frame);
 		setBehindContentView(R.layout.left_frame);
 		
-		// customize the SlidingMenu
-		mSlidingMenu = getSlidingMenu();
-		mSlidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
-		mSlidingMenu.setSecondaryMenu(R.layout.right_frame);
-		mSlidingMenu.setSecondaryShadowDrawable(R.drawable.shadowright);
-		mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
-		mSlidingMenu.setShadowDrawable(R.drawable.shadow);
-		mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-		mSlidingMenu.setFadeDegree(0.35f);
-		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+		initSlidingMenu();
 		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		initActionBar();
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager()
