@@ -69,7 +69,7 @@ public class CenterFrameFragment extends Fragment {
         if(bkDraw != null)
         	mSlidingTab.setBackground(bkDraw);
         else
-        	mSlidingTab.setBackgroundColor(getResources().getColor(R.color.palegreen));
+        	mSlidingTab.setBackgroundColor(getResources().getColor(R.color.floralwhite));
         mSlidingTab.getBackground().setAlpha(200);
         mSlidingTab.setViewPager(mViewPager);
     }  
