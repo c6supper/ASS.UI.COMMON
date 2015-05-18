@@ -7,38 +7,45 @@ import java.io.InputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class FileCopyTask extends AsyncTask<File, Integer, Integer> {
+public class AssetsCopyTask extends AsyncTask<String, Integer, Integer> {
 	
-	private ProgressBar 		m_progressBar = null;
-	private TextView			m_textView = null;
-	private ArrayList<File>		m_srcFileList = new ArrayList<File>();
+	private ProgressBar 			m_progressBar = null;
+	private TextView				m_textView = null;
+	private AssetManager			m_assetManager = null;
+	private ArrayList<String>		m_srcFileList = new ArrayList<String>();
 	
-	public FileCopyTask(ProgressBar progressBar,TextView testView) {
+	public AssetsCopyTask(ProgressBar progressBar,TextView testView,Context context) {
 		m_progressBar = progressBar;
-		m_textView = testView;		
+		m_textView = testView;
+		m_assetManager = context.getAssets();
 	}
 	
 	@SuppressWarnings("resource")
-	public boolean copy(final File srcFile,final File destFile)
+	public boolean copy(final String src,final String dest)
 	{
 		try
 		{
-			if(destFile.exists() && !destFile.equals(srcFile))
+			File destFile = new File(dest);
+			if(destFile.exists())
 			{
 				if(!destFile.delete())
 					return false;
 			}
-			destFile.mkdirs();
+			destFile.getParentFile().mkdirs();
 			
-			if(!srcFile.exists() || srcFile.isFile())
+			destFile = new File(dest);
+			if(!destFile.createNewFile()) {
 				return false;
-			
-			FileChannel inChannel = new FileInputStream(srcFile).getChannel();
-		    FileChannel outChannel = new FileOutputStream(destFile).getChannel();
+			} 
+
+			FileChannel inChannel = m_assetManager.openFd(src).createInputStream().getChannel();
+		    FileChannel outChannel = new FileOutputStream(dest).getChannel();
 		    try 
 		    {
 		        inChannel.transferTo(0, inChannel.size(), outChannel);
@@ -65,30 +72,27 @@ public class FileCopyTask extends AsyncTask<File, Integer, Integer> {
 		return true;
 	}
 	
-	private boolean prepareFileList(File srcFile)
+	private boolean prepareFileList(String src)
 	{
-		m_srcFileList.clear();
 		boolean ret = false;
-		
+
 		try
-		{			
-			if(srcFile.isDirectory())
+		{	
+			String[] assetsFile = m_assetManager.list(src);
+			if(assetsFile.length <= 0)
 			{
-				for(File file:srcFile.listFiles())
+				ret = m_srcFileList.add(src);
+			}
+			else
+			{
+				for(String relativeSrc : assetsFile)
 				{
-					if(file.isFile())
-						ret = m_srcFileList.add(file);
-					
-					if(file.isDirectory())
-						ret = prepareFileList(srcFile); 
+					ret = prepareFileList(src + File.separator + relativeSrc);
 					
 					if(!ret)
 						break;
 				}
 			}
-			
-			if(srcFile.isFile())
-				ret = m_srcFileList.add(srcFile);
 		}
 		catch(Exception e)
 		{
@@ -100,14 +104,13 @@ public class FileCopyTask extends AsyncTask<File, Integer, Integer> {
 	}
 	
 	@Override
-	protected Integer doInBackground(File... params) 
+	protected Integer doInBackground(String... params) 
 	{
 		// TODO Auto-generated method stub
 		if(params.length < 2)
 			return null;
-		
-		File srcFile = params[0];
-		File destFile = params[1];
+		String srcFile = params[0];
+		String destFile = params[1];
 		
 		if(prepareFileList(srcFile))
 		{
@@ -119,10 +122,8 @@ public class FileCopyTask extends AsyncTask<File, Integer, Integer> {
 			
 			for(int fileIndex = 0; fileIndex < m_srcFileList.size(); fileIndex++)
 			{
-				File src = m_srcFileList.get(fileIndex);
-				File dest = new File(src.getPath().replace(srcFile.getPath(), destFile.getPath()));
-				
-				if(copy(src,dest))
+				String src = m_srcFileList.get(fileIndex);
+				if(copy(src,destFile+File.separator+src))
 				{
 					if(m_textView != null && m_srcFileList.size() > 0)
 						m_textView.setText(fileIndex+"/" + m_srcFileList.size());

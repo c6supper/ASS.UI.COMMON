@@ -1,9 +1,18 @@
 package com.ass.ui.Activity;
 
+import java.io.File;
+import java.io.IOException;
+
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.ass.ui.AsyncTask.AssetsCopyTask;
+import com.ass.ui.AsyncTask.FileCopyTask;
 import com.ass.ui.Fragment.CenterFrameFragment;
 import com.ass.ui.Fragment.LeftFrameFragment;
 import com.ass.ui.Fragment.RightFrameFragment;
@@ -34,6 +43,53 @@ public class FrameworkActivity extends SlidingFragmentActivity {
     	.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS); 
         return true;
     }
+	
+	private boolean initApp()
+	{
+		PackageManager manager = getPackageManager();
+		try 
+		{
+			PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
+			
+			SharedPreferences shared = getSharedPreferences(info.packageName, MODE_PRIVATE);
+			String installedVersion = shared.getString("version", "");
+			
+			if(!installedVersion.equals(info.versionName))
+			{
+				try 
+				{
+					for(String directory : getAssets().list(""))
+					{
+						if(directory.equals("AssetsRes"))
+						{
+							String[] parameters = {"AssetsRes",getFilesDir().getAbsolutePath()};
+							AssetsCopyTask asyncCopy = new AssetsCopyTask(null, null,this);
+							asyncCopy.execute(parameters);
+							shared.edit()
+							.putString("version", info.versionName)
+							.apply();
+							break;
+						}
+					}
+				} 
+				catch (IOException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				return true;
+			}
+			
+		} catch (NameNotFoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		return false;
+	}
 	
 	private void initSlidingMenu()
 	{
@@ -88,6 +144,8 @@ public class FrameworkActivity extends SlidingFragmentActivity {
 		
 		if(mTitleRes != -1)
 			setTitle(mTitleRes);
+		
+		initApp();
 		
 		setContentView(R.layout.center_frame);
 		setBehindContentView(R.layout.left_frame);
