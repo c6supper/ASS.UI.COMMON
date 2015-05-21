@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 public class CenterFrameFragment extends Fragment {  
       
     private ViewPager mViewPager;  
-    private static final String[] titles = {"One","Two","Three","Four","Five"};  
+    private static final String[] titles = {"One","Two","Three","Four","Five","Six"};  
     private List<ContentFragment> mFragList = new ArrayList<ContentFragment>();  
     private ContentFragmentPagerAdapter mAdapter;  
     private SlidingTabLayout mSlidingTab;
@@ -69,7 +69,7 @@ public class CenterFrameFragment extends Fragment {
         if(bkDraw != null)
         	mSlidingTab.setBackground(bkDraw);
         else
-        	mSlidingTab.setBackgroundColor(getResources().getColor(R.color.floralwhite));
+        	mSlidingTab.setBackgroundColor(getResources().getColor(R.color.snow));
         mSlidingTab.getBackground().setAlpha(200);
         mSlidingTab.setViewPager(mViewPager);
     }  

@@ -1,6 +1,5 @@
 package com.ass.ui.Activity;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.content.SharedPreferences;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.ass.ui.AsyncTask.AssetsCopyTask;
-import com.ass.ui.AsyncTask.FileCopyTask;
 import com.ass.ui.Fragment.CenterFrameFragment;
 import com.ass.ui.Fragment.LeftFrameFragment;
 import com.ass.ui.Fragment.RightFrameFragment;
