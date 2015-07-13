@@ -21,7 +21,7 @@ public class CenterFrameFragment extends Fragment {
       
     private ViewPager mViewPager;  
     private static final String[] titles = {"One","Two","Three","Four","Five","Six"};  
-    private List<ContentFragment> mFragList = new ArrayList<ContentFragment>();  
+    private List<Fragment> mFragList = new ArrayList<Fragment>();  
     private ContentFragmentPagerAdapter mAdapter;  
     private SlidingTabLayout mSlidingTab;
       
@@ -41,7 +41,8 @@ public class CenterFrameFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.center_frame, container, false);  
           
         for(int i = 0;i < titles.length; i++){  
-        	ContentFragment frag = new ContentFragment(titles[i]);
+        	Fragment frag = new ContentFragment(titles[i]);
+        	
             mFragList.add(frag);  
         }  
         

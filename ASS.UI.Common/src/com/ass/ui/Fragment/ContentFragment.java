@@ -22,6 +22,9 @@ public class ContentFragment extends Fragment implements OnGroupClickListener, O
 	public ContentFragment(final String title)
 	{
 		mTitle = title;
+        Bundle args = new Bundle();
+        args.putString("Title", title);
+        setArguments(args);
 	}
 	
 	public final String getTitle()

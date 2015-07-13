@@ -10,12 +10,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
 
-	private List<ContentFragment> mFragList;
+	private List<Fragment> mFragList;
 	public ContentFragmentPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
 	
-	public ContentFragmentPagerAdapter(FragmentManager fm,List<ContentFragment> list) {
+	public ContentFragmentPagerAdapter(FragmentManager fm,List<Fragment> list) {
 		super(fm);
 		this.mFragList = list;
 	}
@@ -33,7 +33,9 @@ public class ContentFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public CharSequence getPageTitle(int position) {
 		// TODO Auto-generated method stub
-		return mFragList.get(position).getTitle();
+		
+		String title = mFragList.get(position).getArguments().getString("Title");
+		return title;
 	}
 
 }
