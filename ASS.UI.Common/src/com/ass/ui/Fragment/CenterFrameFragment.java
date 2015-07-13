@@ -43,6 +43,10 @@ public class CenterFrameFragment extends Fragment {
         for(int i = 0;i < titles.length; i++){  
         	Fragment frag = new ContentFragment(titles[i]);
         	
+        	Bundle args = new Bundle();
+            args.putString("Title", titles[i]);
+            frag.setArguments(args);
+        	
             mFragList.add(frag);  
         }  
         
